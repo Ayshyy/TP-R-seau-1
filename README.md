@@ -117,7 +117,8 @@ En utilisant l'interface graphique de votre OS :
 
 - trouvez l'IP, la MAC et la gateway pour l'interface WiFi de votre PC
 
-// image
+![image info](./Imgs/Info_carte_windows.png)
+
 > Dans le but de maîtriser votre OS, il est nécessaire de savoir repérer et interagir avec ces informations.
 
 ## 2. Modifications des informations
