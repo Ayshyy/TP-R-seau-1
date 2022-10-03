@@ -134,6 +134,22 @@ En utilisant l'interface graphique de votre OS :
 
 🌞 **Il est possible que vous perdiez l'accès internet.** Que ce soit le cas ou non, expliquez pourquoi c'est possible de perdre son accès internet en faisant cette opération.
 
+```
+Pas de perte de connexion, cela se produirai si j'avais indiqué une addresse existante ou si je n'avais pas spécifié l'addresse passerelle
+
+> ipconfig
+Carte réseau sans fil Wi-Fi :
+
+   Suffixe DNS propre à la connexion. . . :
+   Adresse IPv6 de liaison locale. . . . .: fe80::dc8a:9048:1b69:cb5b%18
+   Adresse IPv4. . . . . . . . . . . . . .: 10.33.16.50
+   Masque de sous-réseau. . . . . . . . . : 255.255.252.0
+   Passerelle par défaut. . . . . . . . . : 10.33.19.254
+```
+
+
+
+
 ---
 
 - **NOTE :** si vous utilisez la même IP que quelqu'un d'autre, il se passerait la même chose qu'en vrai avec des adresses postales :
@@ -178,9 +194,30 @@ Cette étape pourrait paraître cruciale. En réalité, elle n'existe pas à pro
 - choisissez une IP qui commence par "10.10.10."
   - /24 pour la longueur de masque, ou 255.255.255.0 pour le masque (suivant les OS, l'info est demandée différement, mais c'est la même chose)
 
+
+
 🌞 **Vérifier à l'aide d'une commande que votre IP a bien été changée**
+```
+Carte Ethernet Ethernet :
+
+   Suffixe DNS propre à la connexion. . . :
+   Adresse IPv6 de liaison locale. . . . .: fe80::a0f0:514f:c687:c412%7
+   Adresse IPv4. . . . . . . . . . . . . .: 10.10.10.1
+   Masque de sous-réseau. . . . . . . . . : 255.255.255.0
+   Passerelle par défaut. . . . . . . . . :
+
+```
 
 🌞 **Vérifier que les deux machines se joignent**
+```
+>ping 10.10.10.2
+
+Envoi d’une requête 'Ping'  10.10.10.2 avec 32 octets de données :
+Réponse de 10.10.10.2 : octets=32 temps=4 ms TTL=64
+Réponse de 10.10.10.2 : octets=32 temps=2 ms TTL=64
+Réponse de 10.10.10.2 : octets=32 temps=2 ms TTL=64
+Réponse de 10.10.10.2 : octets=32 temps=2 ms TTL=64
+```
 
 - utilisez la commande `ping` pour tester la connectivité entre les deux machines
 
@@ -189,6 +226,14 @@ Cette étape pourrait paraître cruciale. En réalité, elle n'existe pas à pro
 🌞 **Déterminer l'adresse MAC de votre correspondant**
 
 - pour cela, affichez votre table ARP
+```
+>arp -a
+
+Interface : 10.10.10.1 --- 0x7
+  Adresse Internet      Adresse physique      Type
+  10.10.10.2            c0-18-50-0e-cb-bb     dynamique
+  10.10.10.255          ff-ff-ff-ff-ff-ff     statique
+```
 
 ## 4. Utilisation d'un des deux comme gateway
 
@@ -242,12 +287,50 @@ L'idée est la suivante :
 - pour tester la connectivité à internet on fait souvent des requêtes simples vers un serveur internet connu
 - essayez de ping l'adresse IP `1.1.1.1`, c'est un serveur connu de CloudFlare (demandez-moi si vous comprenez pas trop la démarche)
 
+![](https://i.imgur.com/EfEvJqI.png)
+```
+ip a                                                    
+2: enp3s0: 
+    link/ether c0:18:50:0e:cb:bb
+    inet 192.168.137.2/24
+```
+```
+ping 1.1.1.1                                                                                                                                                                                        ✔ 
+PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=54 time=21.4 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=54 time=21.7 ms
+64 bytes from 1.1.1.1: icmp_seq=3 ttl=54 time=22.6 ms
+64 bytes from 1.1.1.1: icmp_seq=4 ttl=54 time=21.1 ms
+^C
+--- 1.1.1.1 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3005ms
+rtt min/avg/max/mdev = 21.094/21.691/22.601/0.565 ms
+```
+![Screen panneaux config, partage réseau.](./imgs/Partage%20de%20co.png)
+
+Source: https://prograide.com/pregunta/48209/comment-afficher-une-image-locale-dans-markdown
+
 🌞 **Prouver que la connexion Internet passe bien par l'autre PC**
 
 - utiliser la commande `traceroute` ou `tracert` (suivant votre OS) pour bien voir que les requêtes passent par la passerelle choisie (l'autre le PC)
 
 > La commande `traceroute` retourne la liste des machines par lesquelles passent le `ping` avant d'atteindre sa destination.
-
+```
+traceroute 1.1.1.1                                                                                                                                                                                2 ✘ 
+traceroute to 1.1.1.1 (1.1.1.1), 30 hops max, 60 byte packets
+ 1  _gateway (192.168.137.1)  1.000 ms  0.959 ms  0.941 ms
+ 2  * * *
+ 3  _gateway (10.33.19.254)  8.078 ms  8.063 ms  8.047 ms
+ 4  137.149.196.77.rev.sfr.net (77.196.149.137)  9.263 ms  9.247 ms  9.231 ms
+ 5  108.97.30.212.rev.sfr.net (212.30.97.108)  9.215 ms  9.199 ms  9.184 ms
+ 6  222.172.136.77.rev.sfr.net (77.136.172.222)  23.432 ms  24.416 ms  24.383 ms
+ 7  221.172.136.77.rev.sfr.net (77.136.172.221)  24.366 ms  23.280 ms  23.240 ms
+ 8  221.10.136.77.rev.sfr.net (77.136.10.221)  23.223 ms  22.025 ms  26.490 ms
+ 9  221.10.136.77.rev.sfr.net (77.136.10.221)  21.969 ms  21.954 ms  21.939 ms
+10  141.101.67.254 (141.101.67.254)  21.923 ms  20.340 ms  20.718 ms
+11  172.71.124.2 (172.71.124.2)  24.857 ms 172.71.116.2 (172.71.116.2)  24.840 ms 172.71.124.2 (172.71.124.2)  23.739 ms
+12  one.one.one.one (1.1.1.1)  23.683 ms  23.665 ms  23.646 ms
+```
 ## 5. Petit chat privé
 
 ![Netcat](./pics/netcat.jpg)
@@ -314,6 +397,12 @@ Here we go :
 
 ---
 
+```
+PS C:\Users\valen\Desktop\netcat-1.11> .\nc64.exe 192.168.137.2 8888
+Coucouu
+Hello
+```
+
 🌞 **Visualiser la connexion en cours**
 
 - sur tous les OS, il existe une commande permettant de voir les connexions en cours
@@ -322,12 +411,8 @@ Here we go :
 ```bash
 # Windows (dans un Powershell administrateur)
 $ netstat -a -n -b
-
-# Linux
-$ ss -atnp
-
-# MacOS
-$ netstat -a -n # je crois :D
+  TCP    192.168.137.1:57007    192.168.137.2:8888     ESTABLISHED
+ [nc64.exe]
 ```
 
 🌞 **Pour aller un peu plus loin**
