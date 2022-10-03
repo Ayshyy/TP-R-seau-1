@@ -448,6 +448,20 @@ Le but est de configurer votre firewall plutôt que de le désactiver
   - vous utiliserez ce port pour communiquer avec `netcat` par groupe de 2 toujours
   - le firewall du *PC serveur* devra avoir un firewall activé et un `netcat` qui fonctionne
   
+** Le pare feu Windows**  
+```
+Panneau de configuration > Tous les Panneaux de configuration > Pare-feu Windows Defender >> Paramètre avancé
+```
+![Règles Pare feu](/Imgs/Parefeu.png)
+```
+Créé une règle qui accepte les ping imcp
+```
+![Règles IMCP](/Imgs/Ping%20imcp%20protocole%20config.png)
+
+
+
+
+
 # III. Manipulations d'autres outils/protocoles côté client
 
 ## 1. DHCP
