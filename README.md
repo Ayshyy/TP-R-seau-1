@@ -306,7 +306,7 @@ PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
 4 packets transmitted, 4 received, 0% packet loss, time 3005ms
 rtt min/avg/max/mdev = 21.094/21.691/22.601/0.565 ms
 ```
-![Screen panneaux config, partage réseau.](./imgs/Partage%20de%20co.png)
+![Screen panneaux config, partage réseau.](./imgs/Partage_de_co.png)
 
 Source: https://prograide.com/pregunta/48209/comment-afficher-une-image-locale-dans-markdown
 
@@ -456,7 +456,7 @@ Panneau de configuration > Tous les Panneaux de configuration > Pare-feu Windows
 ```
 Créé une règle qui accepte les ping imcp
 ```
-![Règles IMCP](/Imgs/Ping%20imcp%20protocole%20config.png)
+![Règles IMCP](/Imgs/Capture_IMCP_msg.png)
 
 
 
