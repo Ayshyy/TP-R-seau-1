@@ -481,7 +481,27 @@ Une fois que le serveur DHCP vous a donné une IP, vous enregistrer un fichier a
 - cette adresse a une durée de vie limitée. C'est le principe du ***bail DHCP*** (ou *DHCP lease*). Trouver la date d'expiration de votre bail DHCP
 - vous pouvez vous renseigner un peu sur le fonctionnement de DHCP dans les grandes lignes. On aura un cours là dessus :)
 
+```
+   Suffixe DNS propre à la connexion. . . :
+   Description. . . . . . . . . . . . . . : Killer(R) Wi-Fi 6 AX1650i 160MHz Wireless Network Adapter (201NGW)
+   Adresse physique . . . . . . . . . . . : 60-E3-2B-B6-34-1A
+   DHCP activé. . . . . . . . . . . . . . : Oui
+   Configuration automatique activée. . . : Oui
+   Adresse IPv4. . . . . . . . . . . . . .: 10.33.16.237(préféré)
+   Masque de sous-réseau. . . . . . . . . : 255.255.252.0
+   Bail obtenu. . . . . . . . . . . . . . : mardi 4 octobre 2022 14:04:38
+   Bail expirant. . . . . . . . . . . . . : mercredi 5 octobre 2022 13:57:03
+   Passerelle par défaut. . . . . . . . . : 10.33.19.254
+   Serveur DHCP . . . . . . . . . . . . . : 10.33.19.254
+   Serveurs DNS. . .  . . . . . . . . . . : 8.8.8.8
+                                       8.8.4.4
+                                       1.1.1.1
+   NetBIOS sur Tcpip. . . . . . . . . . . : Activé
+
+```
+
 > Chez vous, c'est votre box qui fait serveur DHCP et qui vous donne une IP quand vous le demandez.
+
 
 ## 2. DNS
 
@@ -493,7 +513,42 @@ Si votre navigateur fonctionne "normalement" (il vous permet d'aller sur `google
 
 🌞** Trouver l'adresse IP du serveur DNS que connaît votre ordinateur**
 
+```
+   Serveurs DNS. . .  . . . . . . . . . . : 8.8.8.8
+                                       8.8.4.4
+                                       1.1.1.1
+```
+
 🌞 Utiliser, en ligne de commande l'outil `nslookup` (Windows, MacOS) ou `dig` (GNU/Linux, MacOS) pour faire des requêtes DNS à la main
+
+```
+>nslookup
+Serveur par dÚfaut :   dns.google
+Address:  8.8.8.8
+
+> google.com
+Serveur :   dns.google
+Address:  8.8.8.8
+
+Réponse ne faisant pas autorité :
+Nom :    google.com
+Addresses:  2a00:1450:4007:812::200e
+          142.250.179.78
+
+> ynov.com
+Serveur :   dns.google
+Address:  8.8.8.8
+
+Réponse ne faisant pas autorité :
+Nom :    ynov.com
+Addresses:  2606:4700:20::681a:be9
+          2606:4700:20::681a:ae9
+          2606:4700:20::ac43:4ae2
+          104.26.10.233
+          172.67.74.226
+          104.26.11.233
+
+```
 
 - faites un *lookup* (*lookup* = "dis moi à quelle IP se trouve tel nom de domaine")
   - pour `google.com`
@@ -501,10 +556,30 @@ Si votre navigateur fonctionne "normalement" (il vous permet d'aller sur `google
   - interpréter les résultats de ces commandes
 - déterminer l'adresse IP du serveur à qui vous venez d'effectuer ces requêtes
 - faites un *reverse lookup* (= "dis moi si tu connais un nom de domaine pour telle IP")
-  - pour l'adresse `78.73.21.21`
-  - pour l'adresse `22.146.54.58`
+  - pour l'adresse `78.34.2.17`
+  - pour l'adresse `231.34.113.12`
   - interpréter les résultats
   - *si vous vous demandez, j'ai pris des adresses random :)*
+
+```
+>nslookup
+Serveur par dÚfaut :   dns.google
+Address:  8.8.8.8
+
+> 231.34.113.12
+Serveur :   dns.google
+Address:  8.8.8.8
+
+*** dns.google ne parvient pas à trouver 231.34.113.12 : Non-existent domain
+> 78.34.2.17
+Serveur :   dns.google
+Address:  8.8.8.8
+
+Nom :    cable-78-34-2-17.nc.de
+Address:  78.34.2.17
+
+>  
+```
 
 # IV. Wireshark
 
@@ -533,7 +608,14 @@ Un peu austère aux premiers abords, une manipulation très basique permet d'avo
 - prenez moi des screens des trames en question
 - on va prendre l'habitude d'utiliser Wireshark souvent dans les cours, pour visualiser ce qu'il se passe
 
-# Bilan
+## IMCP
+![Ping IMCP capture](Imgs/Capture_IMCP_msg.png)
+## NETCAT
+
+![Netcat MSG Capture](Imgs/Capture_Netcat_msg.png)
+## DNS (nslookup)
+
+![Nslookup DNS Capture](Imgs/Capture_DNS.png)
 
 **Vu pendant le TP :**
 
