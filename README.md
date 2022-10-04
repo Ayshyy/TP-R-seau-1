@@ -458,10 +458,6 @@ Créé une règle qui accepte les ping imcp
 ```
 ![Règles IMCP](/Imgs/Capture_IMCP_msg.png)
 
-
-
-
-
 # III. Manipulations d'autres outils/protocoles côté client
 
 ## 1. DHCP
