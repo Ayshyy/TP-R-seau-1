@@ -135,6 +135,7 @@ ARP permet, pour rappel, de résoudre la situation suivante :
   - PC1 veut joindre PC2
   - PC1 et PC2 ont une IP correctement définie
   - PC1 a besoin de connaître la MAC de PC2 pour lui envoyer des messages
+
   - **dans cette situation, PC1 va utilise le protocole ARP pour connaître la MAC de PC2**
   - une fois que PC1 connaît la mac de PC2, il l'enregistre dans sa **table ARP**
 
@@ -146,6 +147,26 @@ ARP permet, pour rappel, de résoudre la situation suivante :
   - celle de votre réseau physique, WiFi, genre YNOV, car il n'y en a pas dans votre ptit LAN
   - c'est juste pour vous faire manipuler un peu encore :)
 
+### Gateway
+```
+>arp -a
+
+Interface : 10.33.16.224 --- 0x14
+  Adresse Internet      Adresse physique      Type
+  10.33.19.254          00-c0-e7-e0-04-4e     dynamique
+```
+
+### Binome
+
+```
+>arp -a
+
+Interface : 172.16.0.2 --- 0x7
+  Adresse Internet      Adresse physique      Type
+  172.16.0.3            00-e0-99-08-cb-03     dynamique
+```
+
+
 > Il peut être utile de ré-effectuer des `ping` avant d'afficher la table ARP. En effet : les infos stockées dans la table ARP ne sont stockées que temporairement. Ce laps de temps est de l'ordre de ~60 secondes sur la plupart de nos machines.
 
 🌞 **Manipuler la table ARP**
@@ -155,7 +176,29 @@ ARP permet, pour rappel, de résoudre la situation suivante :
 - ré-effectuez des pings, et constatez la ré-apparition des données dans la table ARP
 
 > Les échanges ARP sont effectuées automatiquement par votre machine lorsqu'elle essaie de joindre une machine sur le même LAN qu'elle. Si la MAC du destinataire n'est pas déjà dans la table ARP, alors un échange ARP sera déclenché.
+### arp Avant ping
+```
+>arp -a
 
+Interface : 172.16.0.2 --- 0x7
+  Adresse Internet      Adresse physique      Type
+  172.16.3.255          ff-ff-ff-ff-ff-ff     statique
+  224.0.0.22            01-00-5e-00-00-16     statique
+  224.0.0.251           01-00-5e-00-00-fb     statique
+  239.255.255.250       01-00-5e-7f-ff-fa     statique
+```
+### arp Après ping
+```
+>arp -a
+
+Interface : 172.16.0.2 --- 0x7
+  Adresse Internet      Adresse physique      Type
+  172.16.0.3            00-e0-99-08-cb-03     dynamique
+  172.16.3.255          ff-ff-ff-ff-ff-ff     statique
+  224.0.0.22            01-00-5e-00-00-16     statique
+  224.0.0.251           01-00-5e-00-00-fb     statique
+  239.255.255.250       01-00-5e-7f-ff-fa     statique
+```
 🌞 **Wireshark it**
 
 - vous savez maintenant comment forcer un échange ARP : il sufit de vider la table ARP et tenter de contacter quelqu'un, l'échange ARP se fait automatiquement
@@ -164,6 +207,8 @@ ARP permet, pour rappel, de résoudre la situation suivante :
   - déterminez à quoi correspond chacune de ces adresses
 
 🦈 **PCAP qui contient les trames ARP**
+
+[Wireshark File ARP](Files/Arp.pcapng)
 
 > L'échange ARP est constitué de deux trames : un ARP broadcast et un ARP reply.
 
@@ -231,5 +276,7 @@ L'échange DHCP  entre un client et le serveur DHCP consiste en 4 trames : **DOR
 - identifiez dans ces 4 trames les informations **1**, **2** et **3** dont on a parlé juste au dessus
 
 🦈 **PCAP qui contient l'échange DORA**
+
+[WireShark File: DHCP (Dora)](Files/DHCP.pcapng)
 
 > **Soucis** : l'échange DHCP ne se produit qu'à la première connexion. **Pour forcer un échange DHCP**, ça dépend de votre OS. Sur **GNU/Linux**, avec `dhclient` ça se fait bien. Sur **Windows**, le plus simple reste de définir une IP statique pourrie sur la carte réseau, se déconnecter du réseau, remettre en DHCP, se reconnecter au réseau. Sur **MacOS**, je connais peu mais Internet dit qu'c'est po si compliqué, appelez moi si besoin.
