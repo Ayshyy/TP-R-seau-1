@@ -117,7 +117,7 @@ En utilisant l'interface graphique de votre OS :
 
 - trouvez l'IP, la MAC et la gateway pour l'interface WiFi de votre PC
 
-![image info](./Imgs/Info_carte_windows.png)
+![image info](./Imgs/TP1/Info_carte_windows.png)
 
 > Dans le but de maîtriser votre OS, il est nécessaire de savoir repérer et interagir avec ces informations.
 
@@ -306,7 +306,7 @@ PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
 4 packets transmitted, 4 received, 0% packet loss, time 3005ms
 rtt min/avg/max/mdev = 21.094/21.691/22.601/0.565 ms
 ```
-![Screen panneaux config, partage réseau.](./imgs/Partage_de_co.png)
+![Screen panneaux config, partage réseau.](./imgs/TP1/Partage_de_co.png)
 
 Source: https://prograide.com/pregunta/48209/comment-afficher-une-image-locale-dans-markdown
 
@@ -452,11 +452,11 @@ Le but est de configurer votre firewall plutôt que de le désactiver
 ```
 Panneau de configuration > Tous les Panneaux de configuration > Pare-feu Windows Defender >> Paramètre avancé
 ```
-![Règles Pare feu](/Imgs/Parefeu.png)
+![Règles Pare feu](/Imgs/TP1/Parefeu.png)
 ```
 Créé une règle qui accepte les ping imcp
 ```
-![Règles IMCP](/Imgs/Capture_IMCP_msg.png)
+![Règles IMCP](/Imgs/TP1/Capture_IMCP_msg.png)
 
 # III. Manipulations d'autres outils/protocoles côté client
 
@@ -605,13 +605,13 @@ Un peu austère aux premiers abords, une manipulation très basique permet d'avo
 - on va prendre l'habitude d'utiliser Wireshark souvent dans les cours, pour visualiser ce qu'il se passe
 
 ## IMCP
-![Ping IMCP capture](Imgs/Capture_IMCP_msg.png)
+![Ping IMCP capture](Imgs/TP1/Capture_IMCP_msg.png)
 ## NETCAT
 
-![Netcat MSG Capture](Imgs/Capture_Netcat_msg.png)
+![Netcat MSG Capture](Imgs/TP1/Capture_Netcat_msg.png)
 ## DNS (nslookup)
 
-![Nslookup DNS Capture](Imgs/Capture_DNS.png)
+![Nslookup DNS Capture](Imgs/TP1/Capture_DNS.png)
 
 **Vu pendant le TP :**
 
