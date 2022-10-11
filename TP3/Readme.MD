@@ -122,11 +122,56 @@ Vous aurez besoin de 3 VMs pour cette partie. **Réutilisez les deux VMs précé
 🌞**Activer le routage sur le noeud `router`**
 
 > Cette étape est nécessaire car Rocky Linux c'est pas un OS dédié au routage par défaut. Ce n'est bien évidemment une opération qui n'est pas nécessaire sur un équipement routeur dédié comme du matériel Cisco.
+## Commandes effectués pour activer le routage sur le routeur
+```
+[root@router ~]# sysctl -w net.ipv4.ip_forward=1
+net.ipv4.ip_forward = 1
+[root@router ~]# sysctl -p /etc/sysctl.conf
+
+```
+
 
 🌞**Ajouter les routes statiques nécessaires pour que `john` et `marcel` puissent se `ping`**
 
 - il faut ajouter une seule route des deux côtés
+```
+[root@John ~]# ip route add 10.3.2.0/24 via 10.3.1.254 dev ens36
+
+--------------------
+
+[root@Marcel ~]# ip route add 10.3.1.0/24 via 10.3.2.254 dev ens36
+```
+
 - une fois les routes en place, vérifiez avec un `ping` que les deux machines peuvent se joindre
+## Ping de Marcel vers John
+```
+[root@Marcel ~]# ping 10.3.1.11
+PING 10.3.1.11 (10.3.1.11) 56(84) bytes of data.
+64 bytes from 10.3.1.11: icmp_seq=1 ttl=63 time=1.01 ms
+64 bytes from 10.3.1.11: icmp_seq=2 ttl=63 time=0.915 ms
+64 bytes from 10.3.1.11: icmp_seq=3 ttl=63 time=0.734 ms
+^C
+--- 10.3.1.11 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 0.734/0.886/1.011/0.114 ms
+
+```
+## Ping de John vers marcel
+```
+[root@John ~]# ping 10.3.2.12
+PING 10.3.2.12 (10.3.2.12) 56(84) bytes of data.
+64 bytes from 10.3.2.12: icmp_seq=1 ttl=63 time=0.675 ms
+64 bytes from 10.3.2.12: icmp_seq=2 ttl=63 time=0.823 ms
+64 bytes from 10.3.2.12: icmp_seq=3 ttl=63 time=1.16 ms
+64 bytes from 10.3.2.12: icmp_seq=4 ttl=63 time=1.34 ms
+^C
+--- 10.3.2.12 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3056ms
+rtt min/avg/max/mdev = 0.675/0.998/1.335/0.262 ms
+
+```
+
+# La connexion est établie.
 
 ![THE SIZE](./pics/thesize.png)
 
@@ -143,13 +188,13 @@ Vous aurez besoin de 3 VMs pour cette partie. **Réutilisez les deux VMs précé
 
 Par exemple (copiez-collez ce tableau ce sera le plus simple) :
 
-| ordre | type trame  | IP source | MAC source              | IP destination | MAC destination            |
-|-------|-------------|-----------|-------------------------|----------------|----------------------------|
-| 1     | Requête ARP | x         | `john` `AA:BB:CC:DD:EE` | x              | Broadcast `FF:FF:FF:FF:FF` |
-| 2     | Réponse ARP | x         | ?                       | x              | `john` `AA:BB:CC:DD:EE`    |
-| ...   | ...         | ...       | ...                     |                |                            |
-| ?     | Ping        | ?         | ?                       | ?              | ?                          |
-| ?     | Pong        | ?         | ?                       | ?              | ?                          |
+| ordre | type trame  | IP source | MAC source                 | IP destination | MAC destination            |
+|-------|-------------|-----------|----------------------------|----------------|----------------------------|
+| 1     | Requête ARP | x         | `john` `AA:BB:CC:DD:EE`    | x              | Broadcast `FF:FF:FF:FF:FF` |
+| 2     | Réponse ARP | x         | `router``00:0c:29:4c:26:07`| x              | `john` `AA:BB:CC:DD:EE`    |
+| ...   | ...         | ...       | ...                        |                |                            |
+| 1     | Ping        | 10.3.1.11 | `router``00:0c:29:4c:26:07`| 10.3.2.12      |`Marcel``00:0c:29:c2:87:4f` |
+| 2     | Pong        | 10.3.2.12 | `Marcel``00:0c:29:c2:87:4f`| 10.3.1.11      |`router``00:0c:29:4c:26:07` |
 
 > Vous pourriez, par curiosité, lancer la capture sur `john` aussi, pour voir l'échange qu'il a effectué de son côté.
 
