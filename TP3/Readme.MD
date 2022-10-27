@@ -197,6 +197,7 @@ Par exemple (copiez-collez ce tableau ce sera le plus simple) :
 | 2     | Pong        | 10.3.2.12 | `Marcel``00:0c:29:c2:87:4f`| 10.3.1.11      |`router``00:0c:29:4c:26:07` |
 
 > Vous pourriez, par curiosité, lancer la capture sur `john` aussi, pour voir l'échange qu'il a effectué de son côté.
+
 [WireShark File ARP (Marcel)](Files/tp3_arp_marcel.pcapng)
 [WireShark File ARP (John)](Files/tp2_arp_John.pcapng)
 
@@ -213,6 +214,7 @@ Par exemple (copiez-collez ce tableau ce sera le plus simple) :
 - donnez leur aussi l'adresse d'un serveur DNS qu'ils peuvent utiliser
   - vérifiez que vous avez une résolution de noms qui fonctionne avec `dig`
   - puis avec un `ping` vers un nom de domaine
+  
 
 🌞**Analyse de trames**
 
